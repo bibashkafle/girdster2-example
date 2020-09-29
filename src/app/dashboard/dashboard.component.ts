@@ -205,8 +205,8 @@ export class DashboardComponent implements OnInit {
 
   private emitRemovedWidgetInfo(item: GridsterItem) {
     console.log('emitRemovedWidgetInfo')
-    // const widgetInfo = this.toWidgetInfo(item);
-    // this.itemRemoved.emit(widgetInfo);
+    const widgetInfo = this.toWidgetInfo(item);
+    this.itemRemoved.emit(widgetInfo);
   }
 
   private emitUpdatedWidgetInfo(item: GridsterItem) {
