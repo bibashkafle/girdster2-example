@@ -1,0 +1,25 @@
+  <div  style="height: 900px;">
+      <div>
+          <div style="float:left">
+            <h1>npmjs Gridster 2 Example</h1>
+            <pre>https://www.npmjs.com/package/angular-gridster2</pre>
+          </div>
+          <div style="float:left">
+            <button type="button"  (mousedown)="addItem()" >Add new Item</button>
+          </div>
+      </div>
+      <gridster [options]="options">
+        <gridster-item [item]="widgetInfo" *ngFor="let widgetInfo of dashboard">
+          <div class="button-holder">
+            <h1>{{widgetInfo.id}} </h1>
+            <label *ngIf="!widgetInfo.hasContent">{{widgetInfo.label}}</label>
+            <button mat-mini-fab *ngIf="!widgetInfo.hasContent" (mousedown)="removeItem($event, widgetInfo)"
+                    (touchstart)="removeItem($event, widgetInfo)">
+                    delete
+            </button>
+          </div>
+        </gridster-item>
+      </gridster>
+  </div>
+  
+  
