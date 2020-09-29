@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 
-import {GridsterConfig, GridsterItem, GridType} from 'angular-gridster2';
+import {GridsterConfig, GridsterItem, GridsterItemComponentInterface, GridType} from 'angular-gridster2';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.options = {
       gridType: GridType.Fit,
+      itemRemovedCallback: (item: GridsterItem, itemComponent: GridsterItemComponentInterface) => this.itemRemove(item, itemComponent),
       draggable: {
         enabled: true,
       },
@@ -34,8 +35,8 @@ export class HomeComponent implements OnInit {
   }
 
   removeItem($event: MouseEvent | TouchEvent, item): void {
-    $event.preventDefault();
-    $event.stopPropagation();
+    // $event.preventDefault();
+    // $event.stopPropagation();
     this.dashboard.splice(this.dashboard.indexOf(item), 1);
   }
 
@@ -43,4 +44,16 @@ export class HomeComponent implements OnInit {
     var labelName = prompt("Label name");
     this.dashboard.push({x: 0, y: 0, cols: 1, rows: 1,label: labelName });
   }
+
+  itemRemove(item: GridsterItem, itemComponent: GridsterItemComponentInterface) {
+    console.log('itemRemove')
+    this.emitRemovedWidgetInfo(item);
+  }
+
+  private emitRemovedWidgetInfo(item: GridsterItem) {
+    console.log('emitRemovedWidgetInfo')
+    // const widgetInfo = this.toWidgetInfo(item);
+    // this.itemRemoved.emit(widgetInfo);
+  }
+
 }

@@ -1,4 +1,5 @@
-import { Type } from '@angular/core';;
+import { Type } from '@angular/core';import { GridsterItem } from 'angular-gridster2';
+;
 
 export interface DashboardWidgetInfo{
   id: string;
@@ -50,3 +51,5 @@ export function getWidgetIdToDataMap(widgets: DashboardWidgetInfo[]): Map<string
   });
   return widgetIdToDataMap;
 }
+
+export interface GridItems extends GridsterItem, DashboardWidgetInfo {}
