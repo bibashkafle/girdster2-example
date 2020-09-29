@@ -103,8 +103,8 @@ export class DashboardComponent implements OnInit {
 
   getGridsterItem(widgetInfo: DashboardWidgetInfo): GridsterItem {
 
-    console.log(widgetInfo);
-    
+    console.log('getGridsterItem');
+
     const gridsterItem: GridsterItem = {
       id: widgetInfo.id,
       cols: widgetInfo.size.cols,
@@ -188,25 +188,30 @@ export class DashboardComponent implements OnInit {
   }
 
   hasErrors(widgetInfo: DashboardWidgetInfo) {
+    console.log('hasErrors')
     return widgetInfo && widgetInfo.errors && widgetInfo.errors.length ? true : false;
   }
 
   private gridsterEditingCompleted() {
+    console.log('gridsterEditingCompleted')
     this.editingComplete.emit();
   }
 
   private emitRemovedWidgetInfo(item: GridsterItem) {
+    console.log('emitRemovedWidgetInfo')
     const widgetInfo = this.toWidgetInfo(item);
     this.itemRemoved.emit(widgetInfo);
   }
 
   private emitUpdatedWidgetInfo(item: GridsterItem) {
+    console.log('emitUpdatedWidgetInfo')
     const widgetInfo = this.toWidgetInfo(item);
     this.itemModify.emit(widgetInfo);
     // console.log(widgetInfo);
   }
 
   private toWidgetInfo(item: GridsterItem) {
+    console.log('toWidgetInfo')
     return {
       id: item.id,
       size: {
