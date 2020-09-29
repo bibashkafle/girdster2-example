@@ -1,9 +1,9 @@
-import { DashboardWidgetInfo } from './../common/DashboardWidgetInfo';
+import { DashboardWidgetInfo, GridItems } from './../common/DashboardWidgetInfo';
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {GridsterConfig, GridsterItem, GridsterItemComponentInterface, GridType} from 'angular-gridster2';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'ctx-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -39,6 +39,9 @@ export class DashboardComponent implements OnInit {
   @Output() editingComplete = new EventEmitter<void>();
 
   @Output() resetDashboard = new EventEmitter<void>();
+
+  gridsterItems: Array<GridItems> = [];
+  deletedItemsId: string;
 
   constructor() {
 
@@ -171,7 +174,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  removeWidget(id: string) {
+  removeWidget($event: MouseEvent | TouchEvent, id: string) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
     console.log('removeWidget')
     if (!this.editingEnabled) {
       return;
@@ -224,4 +230,42 @@ export class DashboardComponent implements OnInit {
       }
     } as DashboardWidgetInfo;
   }
+
+  hasGridsterItems(items: DashboardWidgetInfo[]) {
+    let returnValue = false;
+    if (items) {
+      if (this.gridsterItems.length !== items.length) {
+        this.gridsterItems = [];
+        for (let index = 0; index < items.length; index++) {
+          const gridsterItem = this.GetGridItem(items[index]);
+          this.gridsterItems.push(gridsterItem);
+        }
+      }
+      returnValue = true;
+    }
+    return returnValue;
+  }
+
+  GetGridItem(widgetInfo: DashboardWidgetInfo): GridItems {
+    let gridItem: GridItems = {
+      id: widgetInfo.id,
+      cols: widgetInfo.size.cols,
+      rows: widgetInfo.size.rows,
+    } as GridItems;
+    if (widgetInfo.minSize) {
+      gridItem.minItemRows = widgetInfo.minSize.rows;
+      gridItem.minItemCols = widgetInfo.minSize.cols;
+    }
+    if (widgetInfo.maxSize) {
+      gridItem.maxItemRows = widgetInfo.maxSize.rows;
+      gridItem.maxItemCols = widgetInfo.maxSize.cols;
+    }
+    if (widgetInfo.position) {
+      gridItem.x = widgetInfo.position.x;
+      gridItem.y = widgetInfo.position.y;
+    }
+    Object.keys(widgetInfo).forEach((key) => (gridItem[key] = widgetInfo[key]));
+    return gridItem;
+  }
+
 }

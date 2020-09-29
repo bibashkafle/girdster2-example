@@ -5,25 +5,26 @@
           <button (click)="toggleEditing()">{{editingEnabled? 'Disable': 'Enable'}} Edit</button>
         </div>
     </div>
-    <gridster [options]="gridsterConfig">
-        <ng-container *ngFor="let widgetInfo of widgets; let i = index">
-            <gridster-item [item]="getGridsterItem(widgetInfo)">                
-                <div *ngIf="editingEnabled" class="item-buttons gridster-item-content">
-                    <button class="remove-widget-button" (click)="removeWidget(widgetInfo.id)"><i class="fa fa-times text-danger">Delete</i></button>
-                </div>
-                <div *ngIf="editingEnabled" class="widget-overlay"></div>
-                <div class="widget-header-container">
-                    <div class="widget-header-title">{{ widgetInfo.title }}</div>
-                    <div class="widget-header-show-more">
-                        <a *ngIf="widgetInfo.showMoreUri" target="_blank">
-                            Show more
-                        </a>
+    <ng-container *ngIf="hasGridsterItems(widgets)">
+        <gridster [options]="gridsterConfig">           
+                <gridster-item [item]="widgetInfo" *ngFor="let widgetInfo of gridsterItems">                
+                    <div *ngIf="editingEnabled" class="item-buttons gridster-item-content">
+                        <button class="remove-widget-button" (click)="removeWidget($event, widgetInfo.id)"><i class="fa fa-times text-danger">Delete</i></button>
                     </div>
-                </div>
-                <ng-container *ngIf="hasErrors(widgetInfo)">
-                    <h1>Error</h1>
-                </ng-container>               
-            </gridster-item>
-        </ng-container>
-    </gridster>
+                    <div *ngIf="editingEnabled" class="widget-overlay"></div>
+                    <div class="widget-header-container">
+                        <div class="widget-header-title">{{ widgetInfo.title }}</div>
+                        <div class="widget-header-show-more">
+                            <a *ngIf="widgetInfo.showMoreUri" target="_blank">
+                                Show more
+                            </a>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="hasErrors(widgetInfo)">
+                        <h1>Error</h1>
+                    </ng-container>               
+                </gridster-item>
+        </gridster>
+    </ng-container>
+ 
 </div>

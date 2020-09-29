@@ -1,7 +1,8 @@
 <button type="button" (click)="toggleExampleHomePage()">Show {{showExampleHomePage?  'Corptax dashboard': 'npmjs Example dashboard'}}</button>
 
+
 <ng-container *ngIf="showExampleHomePage">
-    <app-home></app-home>
+<app-home></app-home>
 </ng-container>
 <ng-container *ngIf="!showExampleHomePage">
     <app-home-dashboard></app-home-dashboard>

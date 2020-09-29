@@ -29,8 +29,7 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     DashboardComponent,
-    HomeDashboardComponent,
-    DashboardBaseComponent,
+    HomeDashboardComponent    
   ],
   imports: [
     BrowserModule,
