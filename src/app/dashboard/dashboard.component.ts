@@ -28,7 +28,8 @@ export class DashboardComponent implements OnInit {
   editingModeButtonText = this._enableEditingText;
   resetButtonText = this._resetButtonText;
 
-  @Input() widgets: DashboardWidgetInfo[];
+  // @Input() 
+  widgets: DashboardWidgetInfo[];
 
   gridsterConfig: GridsterConfig;
 
@@ -86,27 +87,39 @@ export class DashboardComponent implements OnInit {
       fixedRowHeight: 160,
       pushItems: false
     };
+    this.widgets = this.loadWidgets();
+    this.hasGridsterItems(this.widgets);
+  }
+
+  private loadWidgets(): DashboardWidgetInfo[]{
+    let widgets = Array<DashboardWidgetInfo>();
+    console.log("DashboardComponent.loadWidgets");
+    widgets.push({id: "6621de45-4b66-f6ae-0064-778cc75452c1", title:"CSC Corptax News 1", position: {y: 0, x: 4}, size: {cols: 1, rows: 1}} as DashboardWidgetInfo)
+    widgets.push({id: "6621de45-4b66-f6ae-0064-778cc75452c2", title:"CSC Corptax News 2", position: {y: 2, x: 5}, size: {cols: 1, rows: 1}} as DashboardWidgetInfo)
+    widgets.push({id: "6621de45-4b66-f6ae-0064-778cc75452c3", title:"CSC Corptax News 3", position: {y: 1, x: 2}, size: {cols: 1, rows: 1}} as DashboardWidgetInfo)
+    widgets.push({id: "6621de45-4b66-f6ae-0064-778cc75452c4", title:"CSC Corptax News 4", position: {y: 1, x: 0}, size: {cols: 1, rows: 1}} as DashboardWidgetInfo)
+    return widgets;
   }
 
   itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface) {
-    console.log('itemChange')
+    console.log('DashboardComponent.itemChange')
     this.emitUpdatedWidgetInfo(item);
   }
 
 
   itemResize(item: GridsterItem, itemComponent: GridsterItemComponentInterface) {
-    console.log('itemResize')
+    console.log('DashboardComponent.itemResize')
     this.emitUpdatedWidgetInfo(item);
   }
 
   itemRemove(item: GridsterItem, itemComponent: GridsterItemComponentInterface) {
-    console.log('itemRemove')
+    console.log('DashboardComponent.itemRemove')
     this.emitRemovedWidgetInfo(item);
   }
 
   getGridsterItem(widgetInfo: DashboardWidgetInfo): GridsterItem {
 
-    console.log('getGridsterItem');
+    console.log('DashboardComponent.getGridsterItem');
 
     const gridsterItem: GridsterItem = {
       id: widgetInfo.id,
@@ -178,7 +191,7 @@ export class DashboardComponent implements OnInit {
     $event.preventDefault();
     $event.stopPropagation();
 
-    console.log('removeWidget')
+    console.log('DashboardComponent.removeWidget')
     if (!this.editingEnabled) {
       return;
     }
@@ -189,35 +202,37 @@ export class DashboardComponent implements OnInit {
       }
     });
     if (widgetIndex !== -1) {
+      // this.itemRemoved.emit(this.widgets[widgetIndex]);
       this.widgets.splice(widgetIndex, 1);
+      this.hasGridsterItems(this.widgets);
     }
   }
 
   hasErrors(widgetInfo: DashboardWidgetInfo) {
-    console.log('hasErrors')
+    //console.log('DashboardComponent.hasErrors')
     return widgetInfo && widgetInfo.errors && widgetInfo.errors.length ? true : false;
   }
 
   private gridsterEditingCompleted() {
-    console.log('gridsterEditingCompleted')
+    console.log('DashboardComponent.gridsterEditingCompleted')
     this.editingComplete.emit();
   }
 
   private emitRemovedWidgetInfo(item: GridsterItem) {
-    console.log('emitRemovedWidgetInfo')
+    console.log('DashboardComponent.emitRemovedWidgetInfo')
     const widgetInfo = this.toWidgetInfo(item);
     this.itemRemoved.emit(widgetInfo);
   }
 
   private emitUpdatedWidgetInfo(item: GridsterItem) {
-    console.log('emitUpdatedWidgetInfo')
+    console.log('DashboardComponent.emitUpdatedWidgetInfo')
     const widgetInfo = this.toWidgetInfo(item);
     this.itemModify.emit(widgetInfo);
     // console.log(widgetInfo);
   }
 
   private toWidgetInfo(item: GridsterItem) {
-    console.log('toWidgetInfo')
+    console.log('DashboardComponent.toWidgetInfo')
     return {
       id: item.id,
       size: {
@@ -267,5 +282,4 @@ export class DashboardComponent implements OnInit {
     Object.keys(widgetInfo).forEach((key) => (gridItem[key] = widgetInfo[key]));
     return gridItem;
   }
-
 }

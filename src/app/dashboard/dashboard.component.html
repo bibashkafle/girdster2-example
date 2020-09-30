@@ -5,7 +5,7 @@
           <button (click)="toggleEditing()">{{editingEnabled? 'Disable': 'Enable'}} Edit</button>
         </div>
     </div>
-    <ng-container *ngIf="hasGridsterItems(widgets)">
+    <!-- <ng-container *ngIf="hasGridsterItems(widgets)">  -->
         <gridster [options]="gridsterConfig">           
                 <gridster-item [item]="widgetInfo" *ngFor="let widgetInfo of gridsterItems">                
                     <div *ngIf="editingEnabled" class="item-buttons gridster-item-content">
@@ -25,6 +25,6 @@
                     </ng-container>               
                 </gridster-item>
         </gridster>
-    </ng-container>
+    <!-- </ng-container> -->
  
 </div>
